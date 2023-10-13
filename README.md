@@ -12,3 +12,4 @@ Knowledge acquired by courses on private and free platforms such as Coursera, Ed
 
 
 
+[(3326) Scrapy Course – Python Web Scraping for Beginners - YouTube](https://www.youtube.com/watch?v=mBoX_JCKZTE&ab_channel=freeCodeCamp.org)
