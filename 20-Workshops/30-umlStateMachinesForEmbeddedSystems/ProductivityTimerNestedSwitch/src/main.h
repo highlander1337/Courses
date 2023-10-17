@@ -28,9 +28,12 @@ typedef enum {
 
 // Main application structure
 typedef struct {
-  uint32_t curr_time;
-  uint32_t elapsed_time;
-  uint32_t pro_time;
+  // current time
+  uint32_t c_time;
+  // elapsed time
+  uint32_t e_time;
+  // productive time
+  uint32_t p_time;
   protimer_state_t active_state;
   // END typedef struct
 } protimer_t;
@@ -58,5 +61,7 @@ typedef enum {
 } event_status_t;
 
 void protimer_init(protimer_t *mobj);
+static event_status_t protimer_state_machine(protimer_t *const mobj,
+                                             event_t const *const e);
 
 #endif
