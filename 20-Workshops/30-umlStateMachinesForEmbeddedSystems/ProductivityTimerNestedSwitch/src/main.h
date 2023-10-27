@@ -3,6 +3,37 @@
 
 #include <Arduino.h>
 
+// signals from hardware
+
+#define PIN_BUTTON1 2 // INC_TIME
+#define PIN_BUTTON2 3 // DEC_TIME
+#define PIN_BUTTON3 4 // START/PAUSE
+#define PIN_BUZZER 12 // BUZZER
+#define PIN_LCD_RS 5
+#define PIN_LCD_RW 6
+#define PIN_LCD_EN 7
+#define PIN_LCD_D4 8
+#define PIN_LCD_D5 9
+#define PIN_LCD_D6 10
+#define PIN_LCD_D7 11
+
+// true table values for buttons event
+/*
+  b1    b2    b3    value   signal
+  0     0     1     1       START_PAUSE
+  0     1     0     2       DEC_TIME
+  1     0     0     4       INC_TIME
+  1     1     0     6       ABRT
+  ?     ?     ?     ?       X
+*/
+
+#define BUTTON_PAD_VALUE_START_PAUSE 1
+#define BUTTON_PAD_VALUE_DEC_TIME 2
+#define BUTTON_PAD_VALUE_INC_TIME 4
+#define BUTTON_PAD_VALUE_ABRT 6
+
+typedef enum { NOT_PRESSED, BOUNCE, PRESSED } button_state_t;
+
 // Signals of the application
 typedef enum {
   INC_TIME,
