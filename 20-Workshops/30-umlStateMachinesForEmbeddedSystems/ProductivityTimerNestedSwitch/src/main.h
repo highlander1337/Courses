@@ -3,12 +3,16 @@
 
 #include <Arduino.h>
 
-// signals from hardware
+// hardware inputs
 
 #define PIN_BUTTON1 2 // INC_TIME
 #define PIN_BUTTON2 3 // DEC_TIME
 #define PIN_BUTTON3 4 // START/PAUSE
-#define PIN_BUZZER 12 // BUZZER
+
+// hardware outputs
+#define PIN_BUZZER 12 // BUZZER SOUND ALARM
+
+// LCD hardware
 #define PIN_LCD_RS 5
 #define PIN_LCD_RW 6
 #define PIN_LCD_EN 7
@@ -16,6 +20,10 @@
 #define PIN_LCD_D5 9
 #define PIN_LCD_D6 10
 #define PIN_LCD_D7 11
+
+// LCD datasheet info
+#define LCD_NUM_COL 16
+#define LCD_NUM_ROW 2
 
 // true table values for buttons event
 /*
@@ -32,10 +40,16 @@
 #define BUTTON_PAD_VALUE_INC_TIME 4
 #define BUTTON_PAD_VALUE_ABRT 6
 
-typedef enum { NOT_PRESSED, BOUNCE, PRESSED } button_state_t;
+typedef enum
+{
+  NOT_PRESSED,
+  BOUNCE,
+  PRESSED
+} button_state_t;
 
 // Signals of the application
-typedef enum {
+typedef enum
+{
   INC_TIME,
   DEC_TIME,
   TIME_TICK,
@@ -48,7 +62,8 @@ typedef enum {
 } protimer_signal_t;
 
 // Various States of the application
-typedef enum {
+typedef enum
+{
   IDLE,
   TIME_SET,
   COUNTDOWN,
@@ -58,7 +73,8 @@ typedef enum {
 } protimer_state_t;
 
 // Main application structure
-typedef struct {
+typedef struct
+{
   // current time
   uint32_t c_time;
   // elapsed time
@@ -70,22 +86,26 @@ typedef struct {
 } protimer_t;
 
 // Generic(Super) event structure
-typedef struct {
+typedef struct
+{
   uint8_t sig;
 } event_t;
 
 // For user generated events
-typedef struct {
+typedef struct
+{
   event_t super;
 } protimer_user_event_t;
 
 // For tick event
-typedef struct {
+typedef struct
+{
   event_t super;
   uint8_t ss;
 } protimer_tick_event_t;
 
-typedef enum {
+typedef enum
+{
   EVENT_HANDLED,
   EVENT_IGNORED,
   EVENT_TRANSITION,
