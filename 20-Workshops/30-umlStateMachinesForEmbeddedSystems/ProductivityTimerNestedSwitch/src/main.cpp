@@ -14,8 +14,7 @@ static void protimer_event_dispatcher(protimer_t *const mobj,
 static uint8_t process_button_pad_value(uint8_t btn_pad_value);
 static void display_init(void);
 
-void setup()
-{
+void setup() {
   // serial initialization
   Serial.begin(115200);
 
@@ -35,8 +34,7 @@ void setup()
   // stmButtonDeBouncing_init(&btnDeBouncing);
 }
 
-void loop()
-{
+void loop() {
 
   // hardware variables
   uint8_t b1, b2, b3, btn_pad_value;
@@ -62,10 +60,8 @@ void loop()
   btn_pad_value = process_button_pad_value(btn_pad_value);
 
   // 2. make an event
-  if (btn_pad_value)
-  {
-    switch (btn_pad_value)
-    {
+  if (btn_pad_value) {
+    switch (btn_pad_value) {
     case BUTTON_PAD_VALUE_INC_TIME:
       ue.super.sig = INC_TIME;
       break;
@@ -87,8 +83,7 @@ void loop()
   }
 
   // 4. dispatch the time tick event for every 100ms
-  if ((millis() - current_time) > 100)
-  {
+  if ((millis() - current_time) > 100) {
     // 100ms has passed
     current_time = millis();
     te.super.sig = TIME_TICK;
@@ -100,8 +95,7 @@ void loop()
 
 // function definitions here:
 static void protimer_event_dispatcher(protimer_t *const mobj,
-                                      event_t const *const e)
-{
+                                      event_t const *const e) {
   // Actual status
   event_status_t status;
 
@@ -111,8 +105,7 @@ static void protimer_event_dispatcher(protimer_t *const mobj,
   source = mobj->active_state;
   status = protimer_state_machine(mobj, e);
 
-  if (status == EVENT_TRANSITION)
-  {
+  if (status == EVENT_TRANSITION) {
     // Target state
     target = mobj->active_state;
     // exit or entry event
@@ -128,41 +121,31 @@ static void protimer_event_dispatcher(protimer_t *const mobj,
   }
 }
 
-static uint8_t process_button_pad_value(uint8_t btn_pad_value)
-{
+static uint8_t process_button_pad_value(uint8_t btn_pad_value) {
   static button_state_t btn_sm_state = NOT_PRESSED;
   static uint32_t curr_time = millis();
 
-  switch (btn_sm_state)
-  {
-  case NOT_PRESSED:
-  {
-    if (btn_pad_value)
-    {
+  switch (btn_sm_state) {
+  case NOT_PRESSED: {
+    if (btn_pad_value) {
       btn_sm_state = BOUNCE;
       curr_time = millis();
     }
     break;
   }
-  case BOUNCE:
-  {
-    if (millis() - curr_time >= 50)
-    {
+  case BOUNCE: {
+    if (millis() - curr_time >= 50) {
       // 50ms has passed
-      if (btn_sm_state)
-      {
+      if (btn_sm_state) {
         btn_sm_state = PRESSED;
         return btn_pad_value;
-      }
-      else
+      } else
         btn_sm_state = NOT_PRESSED;
     }
     break;
   }
-  case PRESSED:
-  {
-    if (!btn_pad_value)
-    {
+  case PRESSED: {
+    if (!btn_pad_value) {
       btn_sm_state = BOUNCE;
       curr_time = millis();
     }
@@ -172,8 +155,7 @@ static uint8_t process_button_pad_value(uint8_t btn_pad_value)
   }
 }
 
-static void display_init(void)
-{
+static void display_init(void) {
   // initialize the LCD library
   lcd_begin(LCD_NUM_COL, LCD_NUM_ROW);
   lcd_clear();
